@@ -3,10 +3,10 @@
     <nav-bar class="home-bar"><div slot="center">购物街</div></nav-bar>
 
     <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-up-load="true" @pullingUp="loadMore">
-      <home-swiper :banners="banners"></home-swiper>
+      <home-swiper :banners="banners" @swiperImageLoad='swiperImageLoad'></home-swiper>
       <home-recommend-view :recommends="recommends"></home-recommend-view>
       <feature-view/>
-      <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"></tab-control>
+      <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick" ref="tabControll"></tab-control>
       <products-list :products="products[currentType].list"></products-list>
     </scroll>
 
@@ -62,6 +62,14 @@
       this.getHomeProducts('new')
       this.getHomeProducts('sell')
     },
+    // 加载顺序的一个问题
+    mounted() {
+      //3.事件总线解决滚动区域bug,监听item中图片加载完成
+      this.$bus.$on('itemImageLoad', () => {
+        this.$refs.scroll.scroll.refresh()
+        // console.log('----------')
+      })
+    },
     methods: {
       /*事件监听的相关方法*/
       tabClick(index) {
@@ -85,6 +93,9 @@
       },
       loadMore() {
         this.getHomeProducts(this.currentType) //再次的加载下面的数据
+      },
+      swiperImageLoad() {
+       // console.log(this.$refs.tabControl.$el)
       },
 
       /**
@@ -131,6 +142,7 @@
   .tab-control {
     position: sticky;
     top: 44px;
+    z-index: 9;
   }
 
   .content {

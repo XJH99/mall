@@ -31,6 +31,7 @@
     },
     methods: {
       itemClick() {
+        console.log('tab-bar')
         this.$router.replace(this.path)
       }
     }

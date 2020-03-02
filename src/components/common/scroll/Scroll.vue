@@ -43,7 +43,6 @@
       this.scroll.on('pullingUp', () => {
         this.$emit('pullingUp') //发出上拉的事件
       })
-
       // this.scroll.scrollTo(0,0)
     },
     // methods: {
