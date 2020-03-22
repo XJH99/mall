@@ -27,7 +27,8 @@
     },
     methods: {
       titleClick(index) {
-        this.currentIndex = index
+        this.currentIndex = index;
+        this.$emit('titleClick',index)  //发出一个点击事件
       },
       btnBack() {
         this.$router.back() //返回到上一个页面
